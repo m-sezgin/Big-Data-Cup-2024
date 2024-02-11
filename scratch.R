@@ -107,8 +107,10 @@ test <- data_pos |>
   ungroup() #|>
   #select(date, period, clock, team, player, event, gr, consec, time_z_ee, consec_passes_before_attempt)
 
+# possible question... when controlling for other relevant factors does
+# consecutive passes before event predict shot efficacy on the PP?
 test |>
-  filter((event == "Shot" | event == "Goal")) |>
+  filter(power_play == T, (event == "Shot" | event == "Goal")) |>
   mutate(success = if_else(event == "Shot", 0, 1)) |>
   group_by(consec_passes_before_attempt) |>
   summarize(sum(success)/n(), count = n())
